@@ -1,9 +1,8 @@
 package com.example.artgallery.controllers;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.artgallery.entities.Usuario;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/usuarios")
@@ -16,12 +15,30 @@ public class UsuarioController {
     }
 
     @GetMapping("/{id}")
-    public String ConsultaUsuarioPorId(@PathVariable Long id){
-        return "Usuario por ID" + id;
+    public Usuario ConsultaUsuarioPorId(@PathVariable Long id){
+        Usuario usuario = new Usuario();
+
+        usuario.setNome("Tais");
+        usuario.setcpf("10114979995");
+        usuario.setDataNascimento("20091994");
+        return usuario;
 
     }
-@GetMapping("/empresa/{empresaId}")
-    public String ConsultaUsuarioPorEmpresa(@PathVariable Long empresaId){
-        return "Empresa por empresa: "+ empresaId;
+
+    @GetMapping("/empresa/{empresaId}")
+    public Usuario ConsultaUsuarioPorEmpresa(@PathVariable Long empresaId){
+        Usuario usuarioConstructorCompleto = new Usuario("João da Silva", "12345678900", "01/01/1990");
+        return usuarioConstructorCompleto;
     }
+
+
+
+    @PostMapping
+public ResponseEntity<Usuario> CadastrarUsuario(@RequestBody Usuario usuarioRequest){
+        return ResponseEntity.ok(usuarioRequest);
+
+
+
+}
+
 }
