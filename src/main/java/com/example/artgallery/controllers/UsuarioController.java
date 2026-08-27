@@ -16,10 +16,12 @@ public class UsuarioController {
 
     @GetMapping("/{id}")
     public Usuario ConsultaUsuarioPorId(@PathVariable Long id){
+
         Usuario usuario = new Usuario();
 
+        usuario.setId(id);
         usuario.setNome("Tais");
-        usuario.setcpf("10114979995");
+        usuario.setCpf("10114979995");
         usuario.setDataNascimento("20091994");
         return usuario;
 
@@ -27,7 +29,7 @@ public class UsuarioController {
 
     @GetMapping("/empresa/{empresaId}")
     public Usuario ConsultaUsuarioPorEmpresa(@PathVariable Long empresaId){
-        Usuario usuarioConstructorCompleto = new Usuario("João da Silva", "12345678900", "01/01/1990");
+    Usuario usuarioConstructorCompleto = new Usuario (empresaId, "Tais", "10114979995", "20091994");
         return usuarioConstructorCompleto;
     }
 
