@@ -3,14 +3,15 @@ package com.example.artgallery.DTO;
 public class LoginResponse {
 
     private String mensagem;
-    private String senha;
-    private String login;
 
-    public String getSenha() {
-        return this.senha;
+    public LoginResponse() {
     }
 
-    public void setSenha(String getSenha) {
+    public String getMensagem() {
+        return mensagem;
+    }
 
+    public void setMensagem(String mensagem) {
+        this.mensagem = mensagem;
     }
 }

@@ -1,11 +1,26 @@
 package com.example.artgallery.entities;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+import java.time.LocalDateTime;
+
+@Entity
 public class Usuario {
+
+    public Usuario() {
+    }
+
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private String nome;
     private String cpf;
     private String dataNascimento;
-    private Long id;
 
 
     public Usuario(Long id, String nome, String cpf, String dataNascimento) {
@@ -15,16 +30,16 @@ public class Usuario {
         this.dataNascimento = dataNascimento;
     }
 
-
-    public Long setId() {
-        return this.id;
-    }
     public Long getId() {
-        return this.id;
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getNome() {
-        return this.nome;
+        return nome;
     }
 
     public void setNome(String nome) {
@@ -32,7 +47,7 @@ public class Usuario {
     }
 
     public String getCpf() {
-        return this.cpf;
+        return cpf;
     }
 
     public void setCpf(String cpf) {
@@ -40,14 +55,10 @@ public class Usuario {
     }
 
     public String getDataNascimento() {
-        return this.dataNascimento;
+        return dataNascimento;
     }
 
     public void setDataNascimento(String dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
-
-
 }
-
-

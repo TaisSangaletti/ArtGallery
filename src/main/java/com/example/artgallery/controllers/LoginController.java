@@ -1,36 +1,28 @@
 package com.example.artgallery.controllers;
 
 import com.example.artgallery.DTO.LoginRequest;
-import com.example.artgallery.DTO.LoginRequest;
 import com.example.artgallery.DTO.LoginResponse;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("login")
-
-
+@RequestMapping("/login")
 public class LoginController {
 
     @PostMapping
-    public ResponseEntity<LoginResponse> logar(@RequestBody LoginRequest loginrequest){
-        if (loginrequest.getLogin ().equals ("string")
-            && loginrequest.getSenha().equals("string")){
+    public ResponseEntity<LoginResponse> logar(
+            @RequestBody LoginRequest loginRequest) {
 
-            LoginResponse loginsResponse = new LoginResponse();
-            loginsResponse.setMensagem(
+        if (loginRequest.getLogin().equals("string")
+                && loginRequest.getSenha().equals("string")) {
 
-            return ResponseEntity.ok(loginsResponse);
+            LoginResponse loginResponse = new LoginResponse();
+            loginResponse.setMensagem("Bem vindo! Ao sistema de alunos!");
 
-
+            return ResponseEntity.ok(loginResponse);
         }
 
-    return ResponseEntity.status(UN)
-
-
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 }
-
