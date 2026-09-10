@@ -2,7 +2,6 @@ package com.example.artgallery.controllers;
 
 import com.example.artgallery.DTO.LoginRequest;
 import com.example.artgallery.DTO.LoginResponse;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,18 +10,23 @@ import org.springframework.web.bind.annotation.*;
 public class LoginController {
 
     @PostMapping
-    public ResponseEntity<LoginResponse> logar(
-            @RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<LoginResponse> realizarLogin(
+            @RequestBody LoginRequest request) {
 
-        if (loginRequest.getLogin().equals("string")
-                && loginRequest.getSenha().equals("string")) {
+        if ("admin".equals(request.getLogin())
+                && "123".equals(request.getSenha())) {
 
-            LoginResponse loginResponse = new LoginResponse();
-            loginResponse.setMensagem("Bem vindo! Ao sistema de alunos!");
-
-            return ResponseEntity.ok(loginResponse);
+            return ResponseEntity.ok(
+                    new LoginResponse(
+                            "Login realizado com sucesso!"
+                    )
+            );
         }
 
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        return ResponseEntity.badRequest().body(
+                new LoginResponse(
+                        "Usuário ou senha inválidos!"
+                )
+        );
     }
 }

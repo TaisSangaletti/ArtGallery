@@ -1,13 +1,26 @@
 package com.example.artgallery.entities;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
 public class Artista {
+
+    public Artista() {
+    }
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private String nome;
     private String cpf;
     private String nacionalidade;
-    private Long id;
+    private String status;
 
-    public Artista(Long id, String nome, String cpf, String nacionalidade){
+    public Artista(Long id, String nome, String cpf, String nacionalidade) {
         this.id = id;
         this.nome = nome;
         this.cpf = cpf;
@@ -15,11 +28,15 @@ public class Artista {
     }
 
     public Long getId() {
-        return this.id;
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getNome() {
-        return this.nome;
+        return nome;
     }
 
     public void setNome(String nome) {
@@ -27,19 +44,21 @@ public class Artista {
     }
 
     public String getCpf() {
-        return this.cpf;
+        return cpf;
     }
 
     public void setCpf(String cpf) {
         this.cpf = cpf;
     }
 
-    public String getNacionalidade (){
-        return this.nacionalidade;
+    public String getNacionalidade() {
+        return nacionalidade;
     }
 
-    public void setnacionalidade(String nacionalidade) {
+    public void setNacionalidade(String nacionalidade) {
         this.nacionalidade = nacionalidade;
     }
 
+    public void setStatus() {
+    }
 }

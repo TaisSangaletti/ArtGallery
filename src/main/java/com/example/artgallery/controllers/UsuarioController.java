@@ -1,6 +1,8 @@
 package com.example.artgallery.controllers;
 
 import com.example.artgallery.entities.Usuario;
+import com.example.artgallery.repository.UsuarioRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -8,6 +10,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/usuarios")
 
 public class UsuarioController {
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
     @GetMapping
     public String ConsultaUsuario (){
@@ -37,6 +42,9 @@ public class UsuarioController {
 
     @PostMapping
 public ResponseEntity<Usuario> CadastrarUsuario(@RequestBody Usuario usuarioRequest){
+
+        //Salvando no banco
+        usuarioRepository.save(usuarioBanco);
         return ResponseEntity.ok(usuarioRequest);
 
 
