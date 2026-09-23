@@ -126,6 +126,9 @@ http://localhost:8080/swagger-ui/index.html
 - [X] Atualizar dados de uma obra;
 - [X] Excluir obra de arte;
 - [X] Cadastrar artistas;
+- [X] Listar artistas;
+- [X] Alterar artistas;
+- [X] Excluir artistas;
 - [X] Relacionar artistas e obras.
 
 ## Estrutura do projeto
