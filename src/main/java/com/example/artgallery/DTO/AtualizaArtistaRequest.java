@@ -1,23 +1,42 @@
 package com.example.artgallery.DTO;
 
-import com.example.artgallery.entities.
-        Artista;
-
 public class AtualizaArtistaRequest {
+
+    private String nome;
+    private String cpf;
+    private String nacionalidade;
+
 
     public AtualizaArtistaRequest() {
     }
 
-    private
-    Artista status;
-
-    public
-    Artista getStatus() {
-        return status;
+    public AtualizaArtistaRequest(String nome, String cpf) {
+        this.nome = nome;
+        this.cpf = cpf;
     }
 
-    public void setStatus(
-            Artista status) {
-        this.status = status;
+    public String getNome() {
+        return nome;
     }
-}
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+        public String getNacionalidade () {
+            return nacionalidade;
+        }
+
+        public void setNacionalidade (String nacionalidade){
+            this.nacionalidade = nacionalidade;
+
+        }
+    }

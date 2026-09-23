@@ -9,31 +9,26 @@ public class ObraDeArteResponse {
     private String titulo;
     private String tecnica;
     private String anoCriacao;
+    private String mensagem;
 
-    public ObraDeArteResponse() {
-    }
-
-    public ObraDeArteResponse(Long id, String titulo,
-                              String tecnica, String anoCriacao) {
+    public ObraDeArteResponse(Long id, String mensagem) {
         this.id = id;
-        this.titulo = titulo;
-        this.tecnica = tecnica;
-        this.anoCriacao = anoCriacao;
+        this.mensagem = mensagem;
     }
 
     public Long getId() {
         return id;
     }
 
-    public String getTitulo() {
-        return titulo;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public String getTecnica() {
-        return tecnica;
+    public String getMensagem() {
+        return mensagem;
     }
 
-    public String getAnoCriacao() {
-        return anoCriacao;
+    public void setMensagem(String mensagem) {
+        this.mensagem = mensagem;
     }
 }

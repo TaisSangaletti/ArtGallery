@@ -7,36 +7,26 @@ public class ExposicaoResponse {
     private String local;
     private String dataInicio;
     private String dataFim;
+    private String mensagem;
 
-    public ExposicaoResponse() {
-    }
-
-    public ExposicaoResponse(Long id, String nome, String local,
-                             String dataInicio, String dataFim) {
+    public ExposicaoResponse(Long id, String mensagem) {
         this.id = id;
-        this.nome = nome;
-        this.local = local;
-        this.dataInicio = dataInicio;
-        this.dataFim = dataFim;
+        this.mensagem = mensagem;
     }
 
     public Long getId() {
         return id;
     }
 
-    public String getNome() {
-        return nome;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public String getLocal() {
-        return local;
+    public String getMensagem() {
+        return mensagem;
     }
 
-    public String getDataInicio() {
-        return dataInicio;
-    }
-
-    public String getDataFim() {
-        return dataFim;
+    public void setMensagem(String mensagem) {
+        this.mensagem = mensagem;
     }
 }

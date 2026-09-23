@@ -20,11 +20,12 @@ public class Artista {
     private String nacionalidade;
     private String status;
 
-    public Artista(Long id, String nome, String cpf, String nacionalidade) {
+    public Artista(Long id, String nome, String cpf, String nacionalidade, String status) {
         this.id = id;
         this.nome = nome;
         this.cpf = cpf;
         this.nacionalidade = nacionalidade;
+        this.status = status;
     }
 
     public Long getId() {
@@ -59,6 +60,11 @@ public class Artista {
         this.nacionalidade = nacionalidade;
     }
 
-    public void setStatus() {
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
