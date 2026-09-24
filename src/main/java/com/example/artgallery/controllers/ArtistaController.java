@@ -6,6 +6,7 @@ import com.example.artgallery.DTO.AtualizaArtistaRequest;
 import com.example.artgallery.entities.Artista;
 import com.example.artgallery.repository.ArtistaRepository;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,14 +17,12 @@ import java.util.List;
 @RequestMapping("/artistas")
 public class ArtistaController {
 
-    private final ArtistaRepository artistaRepository;
-
-    public ArtistaController(ArtistaRepository artistaRepository) {
-        this.artistaRepository = artistaRepository;
-    }
+    @Autowired
+    private  ArtistaRepository artistaRepository;
 
     @GetMapping
     public List<Artista> getArtistas() {
+
         return artistaRepository.findAll();
     }
 
