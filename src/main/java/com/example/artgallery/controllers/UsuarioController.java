@@ -5,6 +5,7 @@ import com.example.artgallery.DTO.UsuarioRequest;
 import com.example.artgallery.DTO.UsuarioResponse;
 import com.example.artgallery.entities.Usuario;
 import com.example.artgallery.repository.UsuarioRepository;
+import com.example.artgallery.repository.EmpresaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,7 @@ public class UsuarioController {
     private UsuarioRepository usuarioRepository;
 
     @Autowired
-    private UsuarioRepository empresaRepository;
+    private EmpresaRepository empresaRepository;
 
 
     @GetMapping
@@ -49,14 +50,21 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public ResponseEntity<Usuario> cadastrarUsuario(
-            @RequestBody Usuario usuarioRequest) {
+    public ResponseEntity<UsuarioResponse> cadastrarUsuario(
+            @RequestBody UsuarioRequest usuarioRequest) {
+
+        var empresaBanco = empresaRepository.findById(usuarioRequest.getEmpresa_id()).orElse(null);
+
+        if(empresaBanco == null) {
+            return ResponseEntity.notFound().build();
+        }
 
         Usuario usuarioBanco = new Usuario();
         usuarioBanco.setNome(usuarioRequest.getNome());
         usuarioBanco.setCpf(usuarioRequest.getCpf());
         usuarioBanco.setDataNascimento(usuarioRequest.getDataNascimento());
         usuarioBanco.setSenha(usuarioRequest.getSenha());
+        usuarioBanco.setEmpresa(empresaBanco);
 
         usuarioBanco.setDataCadastro(LocalDateTime.now());
         usuarioBanco.setStatus("A");
@@ -69,8 +77,9 @@ public class UsuarioController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UsuarioResponse>
-    AtualizarUsuario(@PathVariable Long id, @RequestBody UsuarioRequest usuarioRequest){
+    public ResponseEntity<UsuarioResponse> atualizarUsuario(
+                @PathVariable Long id,
+                @RequestBody UsuarioRequest usuarioRequest) {
         //Consulta no banco
         Usuario usuarioBanco = usuarioRepository.findById(id).orElse(null);
 
@@ -89,8 +98,9 @@ public class UsuarioController {
     }
 
     @PatchMapping("/{id}/status")
-    public ResponseEntity<UsuarioResponse>
-    AtualizarStatus(@PathVariable Long id, @RequestBody AtualizaStatusUsuarioRequest usuarioRequest){
+        public ResponseEntity<UsuarioResponse> atualizaStatus(
+                @PathVariable Long id,
+                @RequestBody AtualizaStatusUsuarioRequest usuarioRequest){
         //Consulta no banco
         Usuario usuarioBanco = usuarioRepository.findById(id).orElse(null);
 

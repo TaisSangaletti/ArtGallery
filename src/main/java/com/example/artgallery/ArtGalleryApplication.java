@@ -8,7 +8,6 @@ public class ArtGalleryApplication {
 
     public static void main(String[] args) {
 
-        System.out.println("Hello Word!");
         SpringApplication.run(ArtGalleryApplication.class, args);
     }
 

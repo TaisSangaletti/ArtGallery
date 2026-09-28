@@ -2,7 +2,6 @@ package com.example.artgallery.DTO;
 
 public class LoginRequest {
 
-    private String mensagem;
     private String senha;
     private String login;
 
@@ -25,11 +24,4 @@ public class LoginRequest {
         this.login = login;
     }
 
-    public String getMensagem() {
-        return this.mensagem;
-    }
-
-    public void setMensagem(String mensagem) {
-        this.mensagem = mensagem;
-    }
 }

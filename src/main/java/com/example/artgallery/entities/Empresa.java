@@ -8,6 +8,10 @@ import jakarta.persistence.Id;
 @Entity
 public class Empresa {
 
+    public Empresa(){
+    }
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
@@ -60,8 +64,4 @@ public class Empresa {
 
     }
 
-    public Empresa() {
-
-
-    }
 }

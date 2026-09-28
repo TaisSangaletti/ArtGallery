@@ -5,15 +5,9 @@ public class UsuarioRequest {
     private String nome;
     private String cpf;
     private String dataNascimento;
-    private String empresaID;
-
+    private String senha;
+    private Long empresa_id;
     public UsuarioRequest() {
-    }
-
-    public UsuarioRequest(String nome, String cpf, String dataNascimento) {
-        this.nome = nome;
-        this.cpf = cpf;
-        this.dataNascimento = dataNascimento;
     }
 
     public String getNome() {
@@ -38,5 +32,21 @@ public class UsuarioRequest {
 
     public void setDataNascimento(String dataNascimento) {
         this.dataNascimento = dataNascimento;
+    }
+
+    public Long getEmpresa_id() {
+        return empresa_id;
+    }
+
+    public void setEmpresa_id(Long empresa_id) {
+        this.empresa_id = empresa_id;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 }

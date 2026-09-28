@@ -2,20 +2,17 @@ package com.example.artgallery.DTO;
 
 public class UsuarioResponse {
 
-    private Long id;
-    private String nome;
-    private String cpf;
-    private String dataNascimento;
 
     public UsuarioResponse() {
     }
 
-    public UsuarioResponse(Long id, String nome, String cpf, String dataNascimento) {
+    public UsuarioResponse(Long id, String mensagem) {
         this.id = id;
-        this.nome = nome;
-        this.cpf = cpf;
-        this.dataNascimento = dataNascimento;
+        this.mensagem = mensagem;
     }
+
+    private Long id;
+    private String mensagem;
 
     public Long getId() {
         return id;
@@ -25,27 +22,11 @@ public class UsuarioResponse {
         this.id = id;
     }
 
-    public String getNome() {
-        return nome;
+    public String getMensagem() {
+        return mensagem;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-
-    public String getDataNascimento() {
-        return dataNascimento;
-    }
-
-    public void setDataNascimento(String dataNascimento) {
-        this.dataNascimento = dataNascimento;
+    public void setMensagem(String mensagem) {
+        this.mensagem = mensagem;
     }
 }

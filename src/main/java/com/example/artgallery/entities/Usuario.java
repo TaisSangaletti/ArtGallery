@@ -1,6 +1,8 @@
 package com.example.artgallery.entities;
 
+import com.example.artgallery.controllers.UsuarioController;
 import jakarta.persistence.*;
+
 
 import java.time.LocalDateTime;
 
@@ -99,6 +101,10 @@ public class Usuario {
     public void setDataNascimento(String dataNascimento){
         this.dataNascimento = dataNascimento;
     }
+
+    public Empresa getEmpresa() {return empresa;}
+
+    public void setEmpresa(Empresa empresa) {this.empresa = empresa;}
 
 
 }

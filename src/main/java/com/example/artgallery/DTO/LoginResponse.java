@@ -1,15 +1,10 @@
 package com.example.artgallery.DTO;
 
 public class LoginResponse {
-
-    private String mensagem;
-
     public LoginResponse() {
     }
 
-    public LoginResponse(String mensagem) {
-        this.mensagem = mensagem;
-    }
+    private String mensagem;
 
     public String getMensagem() {
         return mensagem;
