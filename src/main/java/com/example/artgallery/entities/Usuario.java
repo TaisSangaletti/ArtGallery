@@ -25,6 +25,7 @@ public class Usuario {
     private Long id;
 
     private String nome;
+    @Column(unique = true)
     private String cpf;
     private String dataNascimento;
     private LocalDateTime dataCadastro;

@@ -1,9 +1,8 @@
 package com.example.artgallery.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 public class Empresa {
@@ -19,8 +18,21 @@ public class Empresa {
     private Long id;
     private String razaoSocial;
     private String nomeFantasia;
+    @Column(unique = true)
     private String cnpj;
+    @Column(unique = true)
     private String inscricaoEstadual;
+
+    @OneToMany(mappedBy = "empresa")
+    private List<Usuario> usuarios;
+
+    public List<Usuario> getUsuarios() {
+        return usuarios;
+    }
+
+    public void setUsuarios(List<Usuario> usuarios) {
+        this.usuarios = usuarios;
+    }
 
     public String getRazaoSocial() {
         return razaoSocial;

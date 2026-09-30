@@ -1,9 +1,6 @@
 package com.example.artgallery.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Artista {
@@ -16,6 +13,7 @@ public class Artista {
     private Long id;
 
     private String nome;
+    @Column(unique = true)
     private String cpf;
     private String nacionalidade;
     private String status;
