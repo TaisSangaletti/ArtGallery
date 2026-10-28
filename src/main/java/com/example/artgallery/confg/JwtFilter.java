@@ -26,40 +26,53 @@ public class JwtFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
         String caminho = request.getRequestURI();
+        String metodo = request.getMethod();
 
-        if(caminho.equals("/login") ||
-        (caminho.equals("/swagger-ui") ||
-        (caminho.equals("/webjars")||
-        (caminho.equals("/swagger-resources") ||
-        (caminho.equals("/v3/api-docs")
-                request.getMethod()
-        ){
-
-
-        filterChain.doFilter(request,response);
+        // 1. Libera imediatamente requisições OPTIONS (CORS preflight)
+        if ("OPTIONS".equalsIgnoreCase(metodo)) {
+            filterChain.doFilter(request, response);
             return;
         }
 
-        String headerToken = request.getHeader( "Authorization");
-        if (headerToken!= null && headerToken.startsWith("Bearer")){
+        // 2. Libera rotas públicas (incluindo /auth/login e /auth/cadastrar se necessário)
+        if (caminho.startsWith("/auth") ||
+                caminho.equals("/swagger-ui") ||
+                caminho.startsWith("/swagger-ui/") ||
+                caminho.equals("/webjars") ||
+                caminho.equals("/swagger-resources") ||
+                caminho.equals("/v3/api-docs")
+        ) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        String headerToken = request.getHeader("Authorization");
+        if (headerToken != null && headerToken.startsWith("Bearer ")) {
 
             String token = headerToken.replace("Bearer ", "");
 
-            Algorithm algorithm = Algorithm.HMAC256(secret);
-            JWTVerifier verifier = JWT.require(algorithm)
-                    .withIssuer(emissor)
-                    .build();
+            try {
+                Algorithm algorithm = Algorithm.HMAC256(secret);
+                JWTVerifier verifier = JWT.require(algorithm)
+                        .withIssuer(emissor)
+                        .build();
 
-            var resultado = verifier.verify(token);
-            System.out.println(resultado.getSubject());
+                var resultado = verifier.verify(token);
+                System.out.println(resultado.getSubject());
 
+                // IMPORTANTE: Deixa o fluxo continuar para a controller se o token for válido
+                filterChain.doFilter(request, response);
 
-        }else {
+            } catch (Exception e) {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.getWriter().write("Token invalido ou expirado");
+                return;
+            }
+
+        } else {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.getWriter().write("Token invalido");
+            response.getWriter().write("Token ausente ou invalido");
             return;
         }
-
-
     }
 }
