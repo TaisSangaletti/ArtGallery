@@ -5,14 +5,14 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class CrossOrigin implements WebMvcConfigurer { //a requisição por segurança (política de CORS)
+public class CrossOrigin implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedOrigins("http://127.0.0.1:5500", "http://localhost:5500")
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                .allowedHeaders("*")
-                .allowCredentials(true);
+        registry.addMapping("/**") // Libera todas as rotas da sua API
+                .allowedOriginPatterns("*") // Permite requisições de qualquer origem (ótimo para desenvolvimento)
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // Métodos permitidos
+                .allowedHeaders("*") // Permite todos os headers (como Content-Type, Authorization, etc.)
+                .allowCredentials(false); // Defina como true se for usar Cookies/Sessions de autenticação
     }
 }
