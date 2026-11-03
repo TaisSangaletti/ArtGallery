@@ -6,6 +6,8 @@ import com.example.artgallery.DTO.LoginRequest;
 import com.example.artgallery.DTO.LoginResponse;
 import com.example.artgallery.entities.Usuario;
 import com.example.artgallery.repository.UsuarioRepository;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.hibernate.annotations.AnyDiscriminatorValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,6 +25,8 @@ import java.time.ZoneOffset;
 
 @RestController
 @RequestMapping("/login")
+@Tag(name = "Login Controller", description = "Classe responsável por fazer o controle do CRUD de Login!")
+
 public class LoginController {
 
     @Autowired
@@ -39,6 +43,7 @@ public class LoginController {
 
 
     @PostMapping
+    @Operation(summary = "Realizar Login", description = "Método que autentica o usuário com base no CPF e senha informados, gerando e retornando um token JWT de acesso e uma mensagem de boas-vindas em caso de sucesso, ou status de não autorizado caso as credenciais sejam inválidas.")
     public ResponseEntity<LoginResponse> realizarLogin(
             @RequestBody LoginRequest loginRequest) {
 

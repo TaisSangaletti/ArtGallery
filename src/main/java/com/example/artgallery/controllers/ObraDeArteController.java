@@ -39,6 +39,7 @@ public class ObraDeArteController {
     }
 
     @PostMapping
+    @Operation(summary = "Cadastrar Nova Obra de Arte", description = "Método que realiza o cadastro de uma nova obra de arte, preenchendo seus dados com base no DTO recebido e salvando o novo registro no banco.")
     public ResponseEntity<ObraDeArteResponse> cadastrarObra(
             @RequestBody ObraDeArteRequest request) {
 
@@ -55,6 +56,7 @@ public class ObraDeArteController {
     }
 
     @PutMapping("/{id}")
+    @Operation(summary = "Atualizar Obra de Arte por ID", description = "Método que atualiza os dados de uma obra de arte existente localizada pelo ID, recebendo as novas informações via DTO e salvando as alterações no banco.")
     public ResponseEntity<ObraDeArteResponse> atualizarObra(
             @PathVariable Long id,
             @RequestBody ObraDeArteRequest request) {
@@ -77,6 +79,7 @@ public class ObraDeArteController {
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "Deletar Obra de Arte por ID", description = "Método que deleta permanentemente uma obra de arte localizada pelo ID na URL, removendo o registro do banco de dados.")
     public ResponseEntity<Void> deletarObra(@PathVariable Long id) {
 
         ObraDeArte obra = obraDeArteRepository.findById(id).orElse(null);
