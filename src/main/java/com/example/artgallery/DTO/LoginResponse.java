@@ -1,21 +1,12 @@
 package com.example.artgallery.DTO;
 
-import javax.print.DocFlavor;
-
 public class LoginResponse {
-    public LoginResponse() {
-    }
 
     private String mensagem;
 
-    private String tiken;
+    private String token;
 
-    public String getTiken() {
-        return tiken;
-    }
-
-    public void setToken(String token) {
-        this.tiken = tiken;
+    public LoginResponse() {
     }
 
     public String getMensagem() {
@@ -24,5 +15,13 @@ public class LoginResponse {
 
     public void setMensagem(String mensagem) {
         this.mensagem = mensagem;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

@@ -1,4 +1,4 @@
-package com.example.artgallery.confg;
+package com.example.artgallery.config;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
@@ -27,12 +27,14 @@ public class JwtFilter extends OncePerRequestFilter {
 
         String caminho = request.getRequestURI();
 
-        if(caminho.equals("/login") ||
+        if(caminho.startsWith("/login") ||
+                caminho.startsWith("/usuarios") ||
+                caminho.startsWith("/empresas") ||
                 caminho.startsWith("/swagger-ui") ||
                 caminho.startsWith("/webjars") ||
                 caminho.startsWith("/swagger-resources") ||
-                caminho.startsWith("/v3/api-docs")||
-                request.getMethod().startsWith("OPTIONS")
+                caminho.startsWith("/v3/api-docs") ||
+                request.getMethod().equals("OPTIONS")
         ){
             filterChain.doFilter(request,response);
             return;
