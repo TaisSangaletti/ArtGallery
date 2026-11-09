@@ -16,14 +16,19 @@ public class Exposicao {
     private Long id;
 
     private String nome;
+
     private String local;
+
     private String dataInicio;
 
-    public Exposicao(Long id, String nome, String local, String dataInicio) {
+    private String dataFim;
+
+    public Exposicao(Long id, String nome, String local, String dataInicio, String dataFim) {
         this.id = id;
         this.nome = nome;
         this.local = local;
         this.dataInicio = dataInicio;
+        this.dataFim = dataFim;
     }
 
     public Long getId() {
@@ -56,5 +61,13 @@ public class Exposicao {
 
     public void setDataInicio(String dataInicio) {
         this.dataInicio = dataInicio;
+    }
+
+    public String getDataFim() {
+        return dataFim;
+    }
+
+    public void setDataFim(String dataFim) {
+        this.dataFim = dataFim;
     }
 }

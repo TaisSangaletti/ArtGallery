@@ -13,8 +13,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/exposicoes")
-@Tag(name = "Exposição Controller", description = "Classe responsável por fazer o controle do CRUD de Exposições!")
-
+@Tag(
+        name = "Exposição Controller",
+        description = "Classe responsável por fazer o controle do CRUD de Exposições!"
+)
 public class ExposicaoController {
 
     private final ExposicaoRepository exposicaoRepository;
@@ -24,70 +26,96 @@ public class ExposicaoController {
     }
 
     @GetMapping
-    @Operation(summary = "Listar Todas as Exposições", description = "Método que consulta e retorna uma lista com todas as exposições cadastradas no banco.")
+    @Operation(
+            summary = "Listar Todas as Exposições",
+            description = "Método que consulta e retorna uma lista com todas as exposições cadastradas no banco."
+    )
     public List<Exposicao> getExposicoes() {
         return exposicaoRepository.findAll();
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Buscar Exposição por ID", description = "Método que consulta e retorna uma exposição localizada pelo ID na URL, ou retorna o status de não encontrado caso o registro não exista.")
+    @Operation(
+            summary = "Buscar Exposição por ID",
+            description = "Método que consulta e retorna uma exposição localizada pelo ID na URL."
+    )
     public ResponseEntity<Exposicao> exposicaoPorId(@PathVariable Long id) {
+
         return exposicaoRepository.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    @Operation(summary = "Cadastrar Nova Exposição", description = "Método que realiza o cadastro de uma nova exposição, preenchendo seus dados com base no DTO recebido e salvando o novo registro no banco.")
+    @Operation(
+            summary = "Cadastrar Nova Exposição",
+            description = "Método que realiza o cadastro de uma nova exposição."
+    )
     public ResponseEntity<ExposicaoResponse> cadastrarExposicao(
             @RequestBody ExposicaoRequest request) {
 
         Exposicao exposicao = new Exposicao();
+
         exposicao.setNome(request.getNome());
         exposicao.setLocal(request.getLocal());
         exposicao.setDataInicio(request.getDataInicio());
+        exposicao.setDataFim(request.getDataFim());
 
         exposicao = exposicaoRepository.save(exposicao);
 
         return ResponseEntity.ok(
-                new ExposicaoResponse(exposicao.getId(), "Exposição cadastrada com sucesso!")
+                new ExposicaoResponse(
+                        exposicao.getId(),
+                        "Exposição cadastrada com sucesso!"
+                )
         );
     }
 
     @PutMapping("/{id}")
-    @Operation(summary = "Atualizar Exposição por ID", description = "Método que atualiza os dados de uma exposição existente localizada pelo ID na URL, recebendo as novas informações via DTO e salvando as alterações no banco.")
+    @Operation(
+            summary = "Atualizar Exposição por ID",
+            description = "Método que atualiza os dados de uma exposição existente."
+    )
     public ResponseEntity<ExposicaoResponse> atualizarExposicao(
             @PathVariable Long id,
             @RequestBody ExposicaoRequest request) {
 
         Exposicao exposicao = exposicaoRepository.findById(id).orElse(null);
 
-        if (exposicao != null) {
-            exposicao.setNome(request.getNome());
-            exposicao.setLocal(request.getLocal());
-            exposicao.setDataInicio(request.getDataInicio());
-
-            exposicaoRepository.save(exposicao);
-
-            return ResponseEntity.ok(
-                    new ExposicaoResponse(exposicao.getId(), "Exposição atualizada com sucesso!")
-            );
+        if (exposicao == null) {
+            return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.notFound().build();
+        exposicao.setNome(request.getNome());
+        exposicao.setLocal(request.getLocal());
+        exposicao.setDataInicio(request.getDataInicio());
+        exposicao.setDataFim(request.getDataFim());
+
+        exposicaoRepository.save(exposicao);
+
+        return ResponseEntity.ok(
+                new ExposicaoResponse(
+                        exposicao.getId(),
+                        "Exposição atualizada com sucesso!"
+                )
+        );
     }
 
     @DeleteMapping("/{id}")
-    @Operation(summary = "Deletar Exposição por ID", description = "Método que deleta permanentemente uma exposição localizada pelo ID na URL, removendo o registro do banco de dados.")
+    @Operation(
+            summary = "Deletar Exposição por ID",
+            description = "Método que remove uma exposição do banco."
+    )
     public ResponseEntity<Void> deletarExposicao(@PathVariable Long id) {
 
         Exposicao exposicao = exposicaoRepository.findById(id).orElse(null);
 
-        if (exposicao != null) {
-            exposicaoRepository.delete(exposicao);
-            return ResponseEntity.ok().build();
+        if (exposicao == null) {
+            return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.notFound().build();
+        exposicaoRepository.delete(exposicao);
+
+        return ResponseEntity.ok().build();
     }
 }
