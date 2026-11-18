@@ -8,7 +8,7 @@
       environment:
         - POSTGRES_USER=postgres
         - POSTGRES_PASSWORD=123456
-        - POSTGRES_DB=aulafull
+        - POSTGRES_DB=ArtGallery
       volumes:
         - postgres-data-local:/var/lib/postgresql/data
 
