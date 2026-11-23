@@ -1,5 +1,7 @@
 package com.example.artgallery.DTO;
 
+import java.util.List;
+
 public class ExposicaoRequest {
 
     private String nome;
@@ -7,14 +9,23 @@ public class ExposicaoRequest {
     private String dataInicio;
     private String dataFim;
 
+    private List<Long> obrasIds;
+
     public ExposicaoRequest() {
     }
 
-    public ExposicaoRequest(String nome, String local, String dataInicio, String dataFim) {
+    public ExposicaoRequest(
+            String nome,
+            String local,
+            String dataInicio,
+            String dataFim,
+            List<Long> obrasIds) {
+
         this.nome = nome;
         this.local = local;
         this.dataInicio = dataInicio;
         this.dataFim = dataFim;
+        this.obrasIds = obrasIds;
     }
 
     public String getNome() {
@@ -33,6 +44,10 @@ public class ExposicaoRequest {
         return dataFim;
     }
 
+    public List<Long> getObrasIds() {
+        return obrasIds;
+    }
+
     public void setNome(String nome) {
         this.nome = nome;
     }
@@ -47,5 +62,9 @@ public class ExposicaoRequest {
 
     public void setDataFim(String dataFim) {
         this.dataFim = dataFim;
+    }
+
+    public void setObrasIds(List<Long> obrasIds) {
+        this.obrasIds = obrasIds;
     }
 }

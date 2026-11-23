@@ -1,7 +1,16 @@
 package com.example.artgallery.DTO;
 
 public class EmpresaResponse {
+
+    private Long id;
+    private String mensagem;
+
     public EmpresaResponse() {
+    }
+
+    public EmpresaResponse(Long id, String mensagem) {
+        this.id = id;
+        this.mensagem = mensagem;
     }
 
     public Long getId() {
@@ -19,8 +28,4 @@ public class EmpresaResponse {
     public void setMensagem(String mensagem) {
         this.mensagem = mensagem;
     }
-
-    private Long id;
-    private String mensagem;
-
 }

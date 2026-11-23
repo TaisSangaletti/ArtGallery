@@ -4,10 +4,16 @@ import com.example.artgallery.DTO.ExposicaoRequest;
 import com.example.artgallery.DTO.ExposicaoResponse;
 import com.example.artgallery.entities.Exposicao;
 import com.example.artgallery.repository.ExposicaoRepository;
+import com.example.artgallery.repository.ObraDeArteRepository;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.example.artgallery.entities.ObraDeArte;
+import org.springframework.http.HttpStatus;
+
 
 import java.util.List;
 
@@ -20,9 +26,14 @@ import java.util.List;
 public class ExposicaoController {
 
     private final ExposicaoRepository exposicaoRepository;
+    private final ObraDeArteRepository obraDeArteRepository;
 
-    public ExposicaoController(ExposicaoRepository exposicaoRepository) {
+    public ExposicaoController(
+            ExposicaoRepository exposicaoRepository,
+            ObraDeArteRepository obraDeArteRepository) {
+
         this.exposicaoRepository = exposicaoRepository;
+        this.obraDeArteRepository = obraDeArteRepository;
     }
 
     @GetMapping
@@ -37,7 +48,7 @@ public class ExposicaoController {
     @GetMapping("/{id}")
     @Operation(
             summary = "Buscar Exposição por ID",
-            description = "Método que consulta e retorna uma exposição localizada pelo ID na URL."
+            description = "Método que consulta e retorna uma exposição localizada pelo ID."
     )
     public ResponseEntity<Exposicao> exposicaoPorId(@PathVariable Long id) {
 
@@ -99,23 +110,5 @@ public class ExposicaoController {
                         "Exposição atualizada com sucesso!"
                 )
         );
-    }
-
-    @DeleteMapping("/{id}")
-    @Operation(
-            summary = "Deletar Exposição por ID",
-            description = "Método que remove uma exposição do banco."
-    )
-    public ResponseEntity<Void> deletarExposicao(@PathVariable Long id) {
-
-        Exposicao exposicao = exposicaoRepository.findById(id).orElse(null);
-
-        if (exposicao == null) {
-            return ResponseEntity.notFound().build();
-        }
-
-        exposicaoRepository.delete(exposicao);
-
-        return ResponseEntity.ok().build();
     }
 }
