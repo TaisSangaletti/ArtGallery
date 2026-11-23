@@ -3,18 +3,17 @@ package com.example.artgallery.controllers;
 import com.example.artgallery.DTO.ExposicaoRequest;
 import com.example.artgallery.DTO.ExposicaoResponse;
 import com.example.artgallery.entities.Exposicao;
+import com.example.artgallery.entities.ObraDeArte;
 import com.example.artgallery.repository.ExposicaoRepository;
 import com.example.artgallery.repository.ObraDeArteRepository;
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.example.artgallery.entities.ObraDeArte;
-import org.springframework.http.HttpStatus;
 
-
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -30,8 +29,8 @@ public class ExposicaoController {
 
     public ExposicaoController(
             ExposicaoRepository exposicaoRepository,
-            ObraDeArteRepository obraDeArteRepository) {
-
+            ObraDeArteRepository obraDeArteRepository
+    ) {
         this.exposicaoRepository = exposicaoRepository;
         this.obraDeArteRepository = obraDeArteRepository;
     }
@@ -48,10 +47,9 @@ public class ExposicaoController {
     @GetMapping("/{id}")
     @Operation(
             summary = "Buscar Exposição por ID",
-            description = "Método que consulta e retorna uma exposição localizada pelo ID."
+            description = "Método que consulta e retorna uma exposição localizada pelo ID na URL."
     )
     public ResponseEntity<Exposicao> exposicaoPorId(@PathVariable Long id) {
-
         return exposicaoRepository.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -60,82 +58,132 @@ public class ExposicaoController {
     @PostMapping
     @Operation(
             summary = "Cadastrar Nova Exposição",
-            description = "Método que realiza o cadastro de uma nova exposição."
+            description = "Método que realiza o cadastro de uma nova exposição validando conflito de datas."
     )
-    public ResponseEntity<ExposicaoResponse> cadastrarExposicao(
-            @RequestBody ExposicaoRequest request) {
+    public ResponseEntity<?> cadastrarExposicao(@RequestBody ExposicaoRequest request) {
+        try {
+            List<ObraDeArte> obras = buscarEValidarObras(
+                    request.getObraIds(),
+                    request.getDataInicio(),
+                    request.getDataFim(),
+                    null
+            );
 
-        Exposicao exposicao = new Exposicao();
+            Exposicao exposicao = new Exposicao();
+            exposicao.setNome(request.getNome());
+            exposicao.setLocal(request.getLocal());
+            exposicao.setDataInicio(request.getDataInicio());
+            exposicao.setDataFim(request.getDataFim());
+            exposicao.setObras(obras);
 
-        exposicao.setNome(request.getNome());
-        exposicao.setLocal(request.getLocal());
-        exposicao.setDataInicio(request.getDataInicio());
-        exposicao.setDataFim(request.getDataFim());
+            exposicao = exposicaoRepository.save(exposicao);
 
-        exposicao = exposicaoRepository.save(exposicao);
-
-        return ResponseEntity.ok(
-                new ExposicaoResponse(
-                        exposicao.getId(),
-                        "Exposição cadastrada com sucesso!"
-                )
-        );
+            return ResponseEntity.ok(
+                    new ExposicaoResponse(
+                            exposicao.getId(),
+                            "Exposição cadastrada com sucesso!"
+                    )
+            );
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (IllegalStateException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+        }
     }
 
     @PutMapping("/{id}")
     @Operation(
             summary = "Atualizar Exposição por ID",
-            description = "Método que atualiza os dados de uma exposição existente."
+            description = "Método que atualiza os dados de uma exposição existente validando conflito de datas."
     )
-    public ResponseEntity<ExposicaoResponse> atualizarExposicao(
+    public ResponseEntity<?> atualizarExposicao(
             @PathVariable Long id,
             @RequestBody ExposicaoRequest request) {
 
         Exposicao exposicao = exposicaoRepository.findById(id).orElse(null);
-
         if (exposicao == null) {
             return ResponseEntity.notFound().build();
         }
 
-        exposicao.setNome(request.getNome());
-        exposicao.setLocal(request.getLocal());
-        exposicao.setDataInicio(request.getDataInicio());
-        exposicao.setDataFim(request.getDataFim());
+        try {
+            List<ObraDeArte> obras = buscarEValidarObras(
+                    request.getObraIds(),
+                    request.getDataInicio(),
+                    request.getDataFim(),
+                    id
+            );
 
-        exposicaoRepository.save(exposicao);
+            exposicao.setNome(request.getNome());
+            exposicao.setLocal(request.getLocal());
+            exposicao.setDataInicio(request.getDataInicio());
+            exposicao.setDataFim(request.getDataFim());
+            exposicao.setObras(obras);
 
-        return ResponseEntity.ok(
-                new ExposicaoResponse(
-                        exposicao.getId(),
-                        "Exposição atualizada com sucesso!"
-                )
-        );
+            exposicaoRepository.save(exposicao);
+
+            return ResponseEntity.ok(
+                    new ExposicaoResponse(
+                            exposicao.getId(),
+                            "Exposição atualizada com sucesso!"
+                    )
+            );
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (IllegalStateException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+        }
     }
 
     @DeleteMapping("/{id}")
     @Operation(
-            summary = "Excluir Exposição",
-            description = "Método responsável por excluir uma exposição pelo ID."
+            summary = "Deletar Exposição por ID",
+            description = "Método que remove uma exposição do banco."
     )
-    public ResponseEntity<ExposicaoResponse> excluirExposicao(
-            @PathVariable Long id) {
-
-        Exposicao exposicao =
-                exposicaoRepository.findById(id)
-                        .orElse(null);
-
+    public ResponseEntity<Void> deletarExposicao(@PathVariable Long id) {
+        Exposicao exposicao = exposicaoRepository.findById(id).orElse(null);
         if (exposicao == null) {
-
             return ResponseEntity.notFound().build();
         }
 
         exposicaoRepository.delete(exposicao);
+        return ResponseEntity.ok().build();
+    }
 
-        return ResponseEntity.ok(
-                new ExposicaoResponse(
-                        id,
-                        "Exposição excluída com sucesso!"
-                )
-        );
+    private List<ObraDeArte> buscarEValidarObras(
+            List<Long> obraIds,
+            LocalDate dataInicio,
+            LocalDate dataFim,
+            Long exposicaoIdAtual
+    ) {
+        if (dataInicio == null || dataFim == null || dataFim.isBefore(dataInicio)) {
+            throw new IllegalArgumentException(
+                    "Datas inválidas: dataFim deve ser igual ou posterior a dataInicio."
+            );
+        }
+
+        if (obraIds == null || obraIds.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        List<ObraDeArte> obras = obraDeArteRepository.findAllById(obraIds);
+        if (obras.size() != obraIds.size()) {
+            throw new IllegalArgumentException("Uma ou mais obras informadas não foram encontradas.");
+        }
+
+        for (ObraDeArte obra : obras) {
+            boolean temConflito = exposicaoRepository.existsConflitoDeDataParaObra(
+                    obra.getId(),
+                    dataInicio,
+                    dataFim,
+                    exposicaoIdAtual
+            );
+            if (temConflito) {
+                throw new IllegalStateException(
+                        "A obra '" + obra.getTitulo() + "' já está vinculada a outra exposição no período informado."
+                );
+            }
+        }
+
+        return obras;
     }
 }

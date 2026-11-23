@@ -1,70 +1,28 @@
 package com.example.artgallery.DTO;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class ExposicaoRequest {
 
     private String nome;
     private String local;
-    private String dataInicio;
-    private String dataFim;
+    private LocalDate dataInicio;
+    private LocalDate dataFim;
+    private List<Long> obraIds;
 
-    private List<Long> obrasIds;
+    public String getNome() { return nome; }
+    public void setNome(String nome) { this.nome = nome; }
 
-    public ExposicaoRequest() {
-    }
+    public String getLocal() { return local; }
+    public void setLocal(String local) { this.local = local; }
 
-    public ExposicaoRequest(
-            String nome,
-            String local,
-            String dataInicio,
-            String dataFim,
-            List<Long> obrasIds) {
+    public LocalDate getDataInicio() { return dataInicio; }
+    public void setDataInicio(LocalDate dataInicio) { this.dataInicio = dataInicio; }
 
-        this.nome = nome;
-        this.local = local;
-        this.dataInicio = dataInicio;
-        this.dataFim = dataFim;
-        this.obrasIds = obrasIds;
-    }
+    public LocalDate getDataFim() { return dataFim; }
+    public void setDataFim(LocalDate dataFim) { this.dataFim = dataFim; }
 
-    public String getNome() {
-        return nome;
-    }
-
-    public String getLocal() {
-        return local;
-    }
-
-    public String getDataInicio() {
-        return dataInicio;
-    }
-
-    public String getDataFim() {
-        return dataFim;
-    }
-
-    public List<Long> getObrasIds() {
-        return obrasIds;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public void setLocal(String local) {
-        this.local = local;
-    }
-
-    public void setDataInicio(String dataInicio) {
-        this.dataInicio = dataInicio;
-    }
-
-    public void setDataFim(String dataFim) {
-        this.dataFim = dataFim;
-    }
-
-    public void setObrasIds(List<Long> obrasIds) {
-        this.obrasIds = obrasIds;
-    }
+    public List<Long> getObraIds() { return obraIds; }
+    public void setObraIds(List<Long> obraIds) { this.obraIds = obraIds; }
 }

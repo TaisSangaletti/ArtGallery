@@ -1,6 +1,7 @@
 package com.example.artgallery.entities;
 
 import jakarta.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,12 +16,9 @@ public class Exposicao {
     private Long id;
 
     private String nome;
-
     private String local;
-
-    private String dataInicio;
-
-    private String dataFim;
+    private LocalDate dataInicio;
+    private LocalDate dataFim;
 
     @ManyToMany
     @JoinTable(
@@ -30,66 +28,21 @@ public class Exposicao {
     )
     private List<ObraDeArte> obras = new ArrayList<>();
 
-    public Exposicao(Long id,
-                     String nome,
-                     String local,
-                     String dataInicio,
-                     String dataFim,
-                     List<ObraDeArte> obras) {
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-        this.id = id;
-        this.nome = nome;
-        this.local = local;
-        this.dataInicio = dataInicio;
-        this.dataFim = dataFim;
-        this.obras = obras;
-    }
+    public String getNome() { return nome; }
+    public void setNome(String nome) { this.nome = nome; }
 
-    public Long getId() {
-        return id;
-    }
+    public String getLocal() { return local; }
+    public void setLocal(String local) { this.local = local; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public LocalDate getDataInicio() { return dataInicio; }
+    public void setDataInicio(LocalDate dataInicio) { this.dataInicio = dataInicio; }
 
-    public String getNome() {
-        return nome;
-    }
+    public LocalDate getDataFim() { return dataFim; }
+    public void setDataFim(LocalDate dataFim) { this.dataFim = dataFim; }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getLocal() {
-        return local;
-    }
-
-    public void setLocal(String local) {
-        this.local = local;
-    }
-
-    public String getDataInicio() {
-        return dataInicio;
-    }
-
-    public void setDataInicio(String dataInicio) {
-        this.dataInicio = dataInicio;
-    }
-
-    public String getDataFim() {
-        return dataFim;
-    }
-
-    public void setDataFim(String dataFim) {
-        this.dataFim = dataFim;
-    }
-
-    public List<ObraDeArte> getObras() {
-        return obras;
-    }
-
-    public void setObras(List<ObraDeArte> obras) {
-        this.obras = obras;
-    }
+    public List<ObraDeArte> getObras() { return obras; }
+    public void setObras(List<ObraDeArte> obras) { this.obras = obras; }
 }
