@@ -111,4 +111,31 @@ public class ExposicaoController {
                 )
         );
     }
+
+    @DeleteMapping("/{id}")
+    @Operation(
+            summary = "Excluir Exposição",
+            description = "Método responsável por excluir uma exposição pelo ID."
+    )
+    public ResponseEntity<ExposicaoResponse> excluirExposicao(
+            @PathVariable Long id) {
+
+        Exposicao exposicao =
+                exposicaoRepository.findById(id)
+                        .orElse(null);
+
+        if (exposicao == null) {
+
+            return ResponseEntity.notFound().build();
+        }
+
+        exposicaoRepository.delete(exposicao);
+
+        return ResponseEntity.ok(
+                new ExposicaoResponse(
+                        id,
+                        "Exposição excluída com sucesso!"
+                )
+        );
+    }
 }
